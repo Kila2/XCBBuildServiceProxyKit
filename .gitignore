@@ -1,3 +1,4 @@
 /bazel-*
 /.vscode
 **/*.xcodeproj/*
+.DS_Store

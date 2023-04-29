@@ -1,4 +1,9 @@
 load(
+    "@//:xcodeproj_targets.bzl",
+    "XCODEPROJ_TARGETS",
+)
+
+load(
     "@build_bazel_rules_apple//apple:macos.bzl",
     "macos_command_line_application",
 )
@@ -7,8 +12,9 @@ load(
     "swift_library",
 )
 load(
-    "@com_github_buildbuddy_io_rules_xcodeproj//xcodeproj:xcodeproj.bzl",
+    "@rules_xcodeproj//xcodeproj:defs.bzl",
     "xcodeproj",
+    "top_level_target"
 )
 
 swift_library(
@@ -22,6 +28,7 @@ swift_library(
         "@com_github_mobilenativefoundation_xcbbuildserviceproxykit//:XCBBuildServiceProxyKit",
         "@com_github_mobilenativefoundation_xcbbuildserviceproxykit//:XCBProtocol",
         "@com_github_mobilenativefoundation_xcbbuildserviceproxykit//:XCBProtocol_12_0",
+        "@com_github_mobilenativefoundation_xcbbuildserviceproxykit//:XCBProtocol_13_0",
     ],
 )
 
@@ -29,14 +36,13 @@ macos_command_line_application(
     name = "BazelXCBBuildService",
     minimum_os_version = "11.0",
     deps = [":BazelXCBBuildService.library"],
+    visibility = ["//visibility:public"],
 )
 
 xcodeproj(
     name = "xcodeproj",
     project_name = "BazelXCBuildService",
-    targets = [
-        ":BazelXCBBuildService",
-    ],
+    top_level_targets = XCODEPROJ_TARGETS,
     tags = ["manual"],
 )
 
